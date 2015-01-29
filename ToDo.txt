@@ -1,0 +1,23 @@
+Questo documento tiene traccia delle ottimizzazioni da fare una volta stabilizzato il server con tutti i fix necessari.
+
+1 Ottimizzare l'improved polymorph in Unit.cpp, riga 624. Fare il check dentro RemoveAurasWithInterruptFlags, se possibile.
+2 Testare il corretto funzionamento del burning embers sul test server.
+3 Controllare se la chiamata alla funzione CanCastWhileWalking in InterruptSpell consuma troppa cpu. In caso inserire l'hackfix con if.
+4 Spostare i vari bonus di SpellAuraEffects dentro spellScript (vedi commit 54366d7723c7b0db07319f7c97153f3be4d0662d 29-01-2013)
+5 Controllare tutti i spell_classe.cpp in modo da verificare che tutte le classi siano definite anche in fondo al file dentro l' AddSc 
+6 Quando implementata la tabella spell_dbc, inserire le spell 62388 58428, ora presente nei dbc. I seguenti id non appartengono al dbc originale:
+	
+	spell.dbc						id(62388, 58428, 121821)
+	spellEffect.dbc					id(62388, 153020, 153021)
+	SpellAuraOptions.dbc			id(9461)
+	SpellEquippedItems.dbc			id(2953)
+	SpellScaling.dbc				id(1277)
+
+7 Da sistemare il metodo GetHealth() e derivati. Restituisce più hp degli effetivi posseduti dal target.
+8 Inserire lo script per SPELL_AURA_MOD_SPELL_COOLDOWN_BY_HASTE (aura usata solo per il talento Sanctity of Battle - Pally Retri, ora fixato tramite hackfix).
+9 Sistemare l'hackfix di Dual Wield (Player::RemoveSpell, if con id 86629) e controllare che lo stesso non si ripeta per le altre classi (vedi mantis ticket #348).
+10 Sistemare il tooltip con il giusto valore di attack power dato quando si passa il cursore sulla stat agility o strenght in Cat e Bear Form (l'attack power dato realmente funziona).
+11 Riabilitare la spell Wild Mushroom e fixare il crash che ne consegue, quando utilizzata.
+12 Migliorare la gestione del filtro dei target in stealth per gli script Multi Shot e Holy Wrath
+13 Gestire il caso in cui un player e una unit (es. manichino) si sovrappongono e sono sotto Ring of Frost. Il fix temporaneo riduce questo bug a verificarsi solo quando un player e un non-player si sovrappongono grazie a spellInfo->Effects[EFFECT_0].MaxRadiusEntry = sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_0_YARDS); (82691)
+14 Nella funzione Player::ResetDuelStatsAndCooldown, il SetPower non aggiorna graficamente il power effettivo. Questo bug si verifica per POWER_RUNIC_POWER, POWER_FOCUS e POWER_RAGE (solo Warrior). Il bug si ripropone in altre chiamate del SetPower, eccezione fatta per quelle negli script, dove funziona correttamente.

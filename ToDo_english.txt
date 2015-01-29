@@ -1,0 +1,23 @@
+This document keeps track of optimizations to do once stabilized the server with all the necessary fixes.
+
+1 Optimize the improved polymorph in Unit.cpp, line 624. Do check in RemoveAurasWithInterruptFlags, if possible.
+2 Test the proper functioning of the burning embers on the test server.
+3 Check whether the function call in CanCastWhileWalking InterruptSpell consumes too much cpu. If you enter the hackfix with if.
+4 Move the various bonus SpellAuraEffects in spellScript (see commit 54366d7723c7b0db07319f7c97153f3be4d0662d 29-01-2013)
+5 Check all spell_classe.cpp so check that all classes are defined in the bottom of the file inside the 'AddSc 
+6 When implemented spell_dbc the table, enter the spell 62388 58428, now present in dbc. The following id does not belong to the original dbc:
+	
+	spell.dbc id (62388, 58428, 121821)
+	spellEffect.dbc id (62388, 153020, 153021)
+	SpellAuraOptions.dbc id (9461)
+	SpellEquippedItems.dbc id (2953)
+	SpellScaling.dbc id (1277)
+
+7 To arrange the method GetHealth () and derivatives. Returns of more hp effetivi owned by the target.
+8 Insert the script to SPELL_AURA_MOD_SPELL_COOLDOWN_BY_HASTE (buff used only for the talent Sanctity of Battle - Retri Pally, now fixato through hackfix).
+9 Place the hackfix of Dual Wield (Player :: RemoveSpell, if with id 86629) and check that it is not repeated for the other classes (see mantis ticket # 348).
+10 Place the tooltip with the right value of attack power given when you hover the cursor over the stat agility or strength in Cat and Bear Form (attack power as it actually works).
+11 Rehabilitating Wild Mushroom spell and fix this crash that follows when used.
+12 Improving the management of the filter of the targets in stealth for scripting Multi Shot and Holy Wrath
+13 Managing the case where a player and a unit (eg, dummy) overlap and are under Ring of Frost. The temporary fixes bug reduces this to occur only when a player and a non-player overlap thanks to spellInfo-> Effects [EFFECT_0]. MaxRadiusEntry = sSpellRadiusStore.LookupEntry (EFFECT_RADIUS_0_YARDS) (82691)
+14 In the function Player :: ResetDuelStatsAndCooldown, the SetPower not update graphically the actual power. This bug occurs POWER_RUNIC_POWER, POWER_FOCUS and POWER_RAGE (Warrior only). The bug recurs in other calls SetPower, except for those in the script, where it works correctly.
